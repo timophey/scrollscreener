@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function(){
         let arBg = scrollGroup.map((elBlock) => getComputedStyle(elBlock).background);
         scrollGroup.forEach((elBlock, j) => {
           if(j == 0){
-            elBlock.style.setProperty('--power', 1);
             elHolder.style.setProperty('background', arBg[0]);
           }
           elBlock.style.setProperty('--index', j); 
