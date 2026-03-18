@@ -71,6 +71,8 @@ document.addEventListener('DOMContentLoaded', function(){
   
     // console.log(scrollGroupHolders)
   
+    const supportsScrollTimeline = CSS.supports('animation-timeline', 'view()');
+  
     const scrollscreenerScrollHandler = function(){
       var windowHeight = (window.innerHeight || document.documentElement.clientHeight);
       scrollGroupHolders.forEach(({elRoot, elements, arBg}) => {
@@ -82,11 +84,37 @@ document.addEventListener('DOMContentLoaded', function(){
         let commonProgress = (0-top) / windowHeight + 0.5;
         let currentIndex = Math.floor(commonProgress);
         let currentProgress = commonProgress - currentIndex;
-        if(elements[currentIndex]){
-          let el = elements[currentIndex];
+        let activeEl = elements[currentIndex];
+        if (activeEl) {
           elRoot.style.setProperty('background', arBg[currentIndex]);
-          el.dataset.age = (currentProgress > 0.5) ? 1 : 0;
-          el.dataset.current = '1';
+          activeEl.dataset.age = (currentProgress > 0.5) ? 1 : 0;
+          activeEl.dataset.current = '1';
+        }
+        if (!supportsScrollTimeline) {
+          // Fallback for browsers without CSS scroll-driven animations
+          if (activeEl) {
+            let currentpower = 1 - Math.abs(currentProgress * 2 - 1);
+            if(commonProgress < 0.5 || commonProgress > (elements.length - 0.5)) currentpower = 1;
+            activeEl.style.setProperty('--power', Math.round(currentpower * 100) / 100);
+          }
+          elements.forEach((el, index) => (index !== currentIndex) && (el.style.setProperty('--power',0) || (el.dataset.current = '0')));
+        } else {
+          // CSS-driven: manage inline overrides for plateau effect on first/last screens
+          elements.forEach((el, index) => {
+            if (index === currentIndex) {
+              const isFirst = (index === 0);
+              const isLast = (index === elements.length - 1);
+              const plateau = (isFirst && commonProgress < 0.5) || (isLast && commonProgress > (elements.length - 0.5));
+              if (plateau) {
+                el.style.setProperty('--power', 1);
+              } else {
+                el.style.removeProperty('--power');
+              }
+            } else {
+              el.style.removeProperty('--power');
+              el.dataset.current = '0';
+            }
+          });
         }
       });
     }
