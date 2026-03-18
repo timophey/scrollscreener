@@ -1,1 +1,86 @@
-.scrollscreener_root{transition:.6s}.scrollscreener_fall{position:relative;height:calc(var(--screen-count)*100vh)}.scrollscreener_fall:after{display:block;width:100%;height:100%;content:"";background:rgba(0,0,0,0);position:absolute;z-index:5}.scrollscreener_fall .scrollscreener{width:100%;--power: 0}.scrollscreener_fall .scrollscreener_word{--pow: 50%;--pow: calc((1 - var(--power)) * 100%);-webkit-mask-image:linear-gradient(to bottom, transparent 0%, transparent var(--pow), #000 var(--pow), #000 100%);mask-image:linear-gradient(to bottom, transparent 0%, transparent var(--pow), #000 var(--pow), #000 100%);-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:100% 2em;mask-size:100% 2em}.scrollscreener_fall .scrollscreener_word:after{content:" "}.scrollscreener_fall .scrollscreener[data-age="0"] .scrollscreener_word{-webkit-mask-image:linear-gradient(to bottom, transparent 0%, transparent var(--pow), #000 var(--pow), #000 100%);mask-image:linear-gradient(to bottom, transparent 0%, transparent var(--pow), #000 var(--pow), #000 100%)}.scrollscreener_fall .scrollscreener[data-age="1"] .scrollscreener_word{-webkit-mask-image:linear-gradient(to top, transparent 0%, transparent var(--pow), #000 var(--pow), #000 100%);mask-image:linear-gradient(to top, transparent 0%, transparent var(--pow), #000 var(--pow), #000 100%)}.scrollscreener_fall[data-stage="0"] .scrollscreener{position:absolute}.scrollscreener_fall[data-stage="1"] .scrollscreener{position:fixed;top:0}.scrollscreener_fall[data-stage="2"] .scrollscreener{position:absolute;bottom:0}.scrollscreener_word{background-color:rgba(255,0,0,0);display:inline-block;padding-bottom:.2em;margin-bottom:-0.2em}@supports(animation-timeline: view()){@property --scroll-pos{syntax:"<number>";inherits:true;initial-value:0}.scrollscreener_root{--scroll-pos: -1;animation:set-scroll-pos linear both;animation-timeline:view();animation-range:entry 0% exit 100%}@keyframes set-scroll-pos{from{--scroll-pos: -1}to{--scroll-pos: var(--screen-count)}}.scrollscreener_fall .scrollscreener{--diff: calc(var(--scroll-pos) - var(--index));--abs-diff: max(var(--diff), calc(-1 * var(--diff)));--power: max(0, calc(1 - 2 * var(--abs-diff)))}}
+@charset "UTF-8";
+.scrollscreener_root {
+  transition: 0.6s;
+}
+.scrollscreener_fall {
+  position: relative;
+  height: calc(var(--screen-count) * 100vh);
+}
+.scrollscreener_fall:after {
+  display: block;
+  width: 100%;
+  height: 100%;
+  content: "";
+  background: transparent;
+  position: absolute;
+  z-index: 5;
+}
+.scrollscreener_fall .scrollscreener {
+  width: 100%;
+  --power: 0;
+}
+.scrollscreener_fall .scrollscreener_word {
+  --pow: 50%;
+  --pow: calc((1 - var(--power)) * 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent var(--pow), #000 var(--pow), #000 100%);
+          mask-image: linear-gradient(to bottom, transparent 0%, transparent var(--pow), #000 var(--pow), #000 100%);
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 2em;
+          mask-size: 100% 2em;
+}
+.scrollscreener_fall .scrollscreener_word:after {
+  content: " ";
+}
+.scrollscreener_fall .scrollscreener[data-age="0"] .scrollscreener_word {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent var(--pow), #000 var(--pow), #000 100%);
+          mask-image: linear-gradient(to bottom, transparent 0%, transparent var(--pow), #000 var(--pow), #000 100%);
+}
+.scrollscreener_fall .scrollscreener[data-age="1"] .scrollscreener_word {
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, transparent var(--pow), #000 var(--pow), #000 100%);
+          mask-image: linear-gradient(to top, transparent 0%, transparent var(--pow), #000 var(--pow), #000 100%);
+}
+.scrollscreener_fall[data-stage="0"] .scrollscreener {
+  position: absolute;
+}
+.scrollscreener_fall[data-stage="1"] .scrollscreener {
+  position: fixed;
+  top: 0;
+}
+.scrollscreener_fall[data-stage="2"] .scrollscreener {
+  position: absolute;
+  bottom: 0;
+}
+.scrollscreener_word {
+  background-color: rgba(255, 0, 0, 0);
+  display: inline-block;
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
+}
+
+@supports (animation-timeline: view()) {
+  @property --scroll-pos {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
+  .scrollscreener_root {
+    --scroll-pos: -1;
+    animation: set-scroll-pos linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+  }
+  @keyframes set-scroll-pos {
+    from {
+      --scroll-pos: -1;
+    }
+    to {
+      --scroll-pos: var(--screen-count);
+    }
+  }
+  .scrollscreener_fall .scrollscreener {
+    --diff: calc(var(--scroll-pos) - var(--index));
+    --abs-diff: max(var(--diff), calc(-1 * var(--diff)));
+    --power: max(0, calc(1 - 2 * var(--abs-diff)));
+  }
+}/*# sourceMappingURL=style.css.map */
