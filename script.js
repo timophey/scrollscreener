@@ -54,8 +54,8 @@ document.addEventListener('DOMContentLoaded', function(){
                     var wrap0 = document.createElement('span');
                         wrap0.className = 'scrollscreener_word';
                         wrap0.innerText = sw;//+' ';
-//                        wrap0.append(wrap1);          
-              node.parentElement.insertBefore(wrap0, node)
+    //                        wrap0.append(wrap1);          
+            node.parentElement.insertBefore(wrap0, node)
   
             });
           node.remove();
@@ -75,37 +75,26 @@ document.addEventListener('DOMContentLoaded', function(){
     const scrollscreenerScrollHandler = function(){
       var windowHeight = (window.innerHeight || document.documentElement.clientHeight);
       scrollGroupHolders.forEach(({elRoot, elements, arBg}) => {
-        // start
         var elRect = elRoot.getBoundingClientRect();
         const isVisible = ( elRect.top < windowHeight && elRect.bottom > 0);
         if(!isVisible) return;
-        // stage
         let {top, bottom, height} = elRect;
         elRoot.dataset.stage = (top <= 0 && bottom >= windowHeight) ? 1 : (top <= 0 && bottom > 0) ? 2 : 0;
-        // block active
-        let commonProgress = (0-top) / windowHeight + 0.5; //
+        let commonProgress = (0-top) / windowHeight + 0.5;
         let currentIndex = Math.floor(commonProgress);
         let currentProgress = commonProgress - currentIndex;
-        let currentpower = 1 - Math.abs(currentProgress * 2 - 1);
-        if(commonProgress < 0.5 || commonProgress > (elements.length - 0.5)) currentpower = 1;
-        // if()
         if(elements[currentIndex]){
           let el = elements[currentIndex];
           elRoot.style.setProperty('background', arBg[currentIndex]);
-          el.style.setProperty('--power', Math.round(currentpower * 100) / 100);
           el.dataset.age = (currentProgress > 0.5) ? 1 : 0;
           el.dataset.current = '1';
         }
-        // защита от пропуска кадров
-        elements.forEach((el, index) => (index !== currentIndex) && (el.style.setProperty('--power',0) || (el.dataset.current = '0')));
-  
-        // console.log({top, bottom, currentIndex, currentProgress}, 1);
-        // console.log(commonProgress, currentIndex, currentProgress, currentpower)
       });
     }
     window.addEventListener('scroll', scrollscreenerScrollHandler);
     window.dispatchEvent(new Event('scroll'));
     // слушаем события
   })
+  
   
   
